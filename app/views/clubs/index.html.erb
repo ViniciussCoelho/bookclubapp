@@ -15,7 +15,7 @@
             </svg>
           </div>
           <h2 class="text-2xl font-semibold mb-4 text-[#8B2635] merriweather-bold">Você ainda não participa de nenhum clube</h2>
-          <p class="text-gray-600 mb-6 merriweather-light">Crie seu primeiro clube ou peça para ser adicionado em um clube existente.</p>
+          <p class="text-gray-600 mb-6">Crie seu primeiro clube ou peça para ser adicionado em um clube existente.</p>
           <%= link_to "Criar Meu Primeiro Clube", new_club_path, class: "bg-[#8B2635] hover:bg-[#731F2D] text-white font-bold py-3 px-6 rounded-lg transition duration-200 merriweather" %>
         </div>
       <% else %>
@@ -27,7 +27,7 @@
                 <h2 class="text-xl font-bold text-white px-4 text-center merriweather-bold"><%= club.name %></h2>
               </div>
               <div class="p-4">
-                <p class="text-gray-600 mb-4 h-16 overflow-hidden text-sm merriweather-light"><%= club.description %></p>
+                <p class="text-gray-600 mb-4 h-16 overflow-hidden text-sm"><%= club.description %></p>
                 <div class="flex justify-between items-center">
                   <% admin = club.club_users.find_by(user: current_user)&.is_admin %>
                   <% if admin %>
@@ -62,8 +62,8 @@
                   </svg>
                 </div>
                 <div>
-                  <h3 class="font-medium text-sm merriweather-bold">1984</h3>
-                  <p class="text-xs text-gray-500 merriweather-light">George Orwell • Clube Distopias</p>
+                  <h3 class="font-medium text-sm">1984</h3>
+                  <p class="text-xs text-gray-500">George Orwell • Clube Distopias</p>
                   <div class="mt-1 flex items-center">
                     <div class="bg-[#F9EDEF] h-2 rounded-full w-24">
                       <div class="bg-[#8B2635] h-2 rounded-full" style="width: 75%"></div>
@@ -83,7 +83,7 @@
                 </div>
                 <div>
                   <h3 class="font-medium text-sm merriweather-bold">Cem Anos de Solidão</h3>
-                  <p class="text-xs text-gray-500 merriweather-light">Gabriel García Márquez • Literatura Latino-americana</p>
+                  <p class="text-xs text-gray-500 ">Gabriel García Márquez • Literatura Latino-americana</p>
                   <div class="mt-1 flex items-center">
                     <div class="bg-[#F9EDEF] h-2 rounded-full w-24">
                       <div class="bg-[#8B2635] h-2 rounded-full" style="width: 30%"></div>
@@ -103,7 +103,7 @@
                 </div>
                 <div>
                   <h3 class="font-medium text-sm merriweather-bold">Orgulho e Preconceito</h3>
-                  <p class="text-xs text-gray-500 merriweather-light">Jane Austen • Clássicos</p>
+                  <p class="text-xs text-gray-500">Jane Austen • Clássicos</p>
                   <div class="mt-1 flex items-center">
                     <div class="bg-[#F9EDEF] h-2 rounded-full w-24">
                       <div class="bg-[#8B2635] h-2 rounded-full" style="width: 45%"></div>

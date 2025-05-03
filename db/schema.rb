@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_03_183131) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_03_193313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "club_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "club_id", null: false
+    t.boolean "is_admin", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["club_id"], name: "index_club_users_on_club_id"
+    t.index ["user_id", "club_id"], name: "index_club_users_on_user_id_and_club_id", unique: true
+    t.index ["user_id"], name: "index_club_users_on_user_id"
+  end
 
   create_table "clubs", force: :cascade do |t|
     t.string "name", null: false
@@ -20,6 +31,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_03_183131) do
     t.jsonb "chat_messages", default: []
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "owner_id", null: false
+    t.index ["owner_id"], name: "index_clubs_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,4 +46,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_03_183131) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "club_users", "clubs"
+  add_foreign_key "club_users", "users"
+  add_foreign_key "clubs", "users", column: "owner_id"
 end

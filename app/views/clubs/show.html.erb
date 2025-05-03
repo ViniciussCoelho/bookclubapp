@@ -51,6 +51,11 @@
         </div>
       </div>
     </div>
+<div id="chat" data-controller="chat" data-chat-club-id="<%= @club.id %>">
+  <div id="messages">
+    <% @club.chat_messages.each do |msg| %>
+      <p><%= msg["timestamp"].to_time.strftime("%H:%M") %> <strong><%= msg["user"] %>:</strong> <%= msg["message"] %></p>
+    <% end %>
   </div>
   
   <div class="bg-white rounded-lg shadow-md overflow-hidden">

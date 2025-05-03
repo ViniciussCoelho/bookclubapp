@@ -38,5 +38,7 @@ module Bookclubapp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.hosts << "a573-2804-1530-64e-a000-c676-bad0-9b27-fff4.ngrok-free.app"
   end
 end

@@ -4,38 +4,184 @@
     <%= link_to "Criar Novo Clube", new_club_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" %>
   </div>
 
-  <% if @clubs.empty? %>
-    <div class="bg-white p-8 rounded-lg shadow-md text-center">
-      <div class="text-gray-500 mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-        </svg>
-      </div>
-      <h2 class="text-2xl font-semibold mb-4">Você ainda não participa de nenhum clube</h2>
-      <p class="text-gray-600 mb-6">Crie seu primeiro clube ou peça para ser adicionado em um clube existente.</p>
-      <%= link_to "Criar Meu Primeiro Clube", new_club_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg" %>
-    </div>
-  <% else %>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <% @clubs.each do |club| %>
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-          <div class="bg-gradient-to-r from-blue-500 to-blue-700 h-24 flex items-center justify-center">
-            <h2 class="text-2xl font-bold text-white px-4 text-center"><%= club.name %></h2>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+    <!-- Widget de clubes (coluna principal) -->
+    <div class="lg:col-span-2">
+      <% if @clubs.empty? %>
+        <div class="bg-white p-8 rounded-lg shadow-md text-center">
+          <div class="text-gray-500 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+            </svg>
           </div>
-          <div class="p-6">
-            <p class="text-gray-600 mb-4 h-20 overflow-hidden"><%= club.description %></p>
-            <div class="flex justify-between items-center">
-              <% admin = club.club_users.find_by(user: current_user)&.is_admin %>
-              <% if admin %>
-                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Administrador</span>
-              <% else %>
-                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Membro</span>
-              <% end %>
-              <%= link_to "Acessar", club_path(club), class: "bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-1 px-3 rounded" %>
+          <h2 class="text-2xl font-semibold mb-4">Você ainda não participa de nenhum clube</h2>
+          <p class="text-gray-600 mb-6">Crie seu primeiro clube ou peça para ser adicionado em um clube existente.</p>
+          <%= link_to "Criar Meu Primeiro Clube", new_club_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg" %>
+        </div>
+      <% else %>
+        <h2 class="text-xl font-semibold mb-4 text-gray-800">Meus Clubes</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <% @clubs.each do |club| %>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <div class="bg-gradient-to-r from-blue-500 to-blue-700 h-20 flex items-center justify-center">
+                <h2 class="text-xl font-bold text-white px-4 text-center"><%= club.name %></h2>
+              </div>
+              <div class="p-4">
+                <p class="text-gray-600 mb-4 h-16 overflow-hidden text-sm"><%= club.description %></p>
+                <div class="flex justify-between items-center">
+                  <% admin = club.club_users.find_by(user: current_user)&.is_admin %>
+                  <% if admin %>
+                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Administrador</span>
+                  <% else %>
+                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Membro</span>
+                  <% end %>
+                  <%= link_to "Acessar", club_path(club), class: "bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-1 px-3 rounded" %>
+                </div>
+              </div>
             </div>
-          </div>
+          <% end %>
         </div>
       <% end %>
     </div>
-  <% end %>
+
+    <!-- Coluna lateral com widgets -->
+    <div class="space-y-6">
+      <!-- Widget de Leituras Recentes -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-gradient-to-r from-green-600 to-green-800 px-4 py-3">
+          <h2 class="text-lg font-semibold text-white">Leituras Recentes</h2>
+        </div>
+        <div class="p-4">
+          <!-- Placeholder para leituras recentes -->
+          <div class="space-y-3">
+            <div class="border-b pb-3">
+              <div class="flex items-start">
+                <div class="bg-green-100 text-green-800 rounded-md p-2 mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-medium text-sm">1984</h3>
+                  <p class="text-xs text-gray-500">George Orwell • Clube Distopias</p>
+                  <div class="mt-1 flex items-center">
+                    <div class="bg-blue-100 h-2 rounded-full w-24">
+                      <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 ml-2">75%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="border-b pb-3">
+              <div class="flex items-start">
+                <div class="bg-green-100 text-green-800 rounded-md p-2 mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-medium text-sm">Cem Anos de Solidão</h3>
+                  <p class="text-xs text-gray-500">Gabriel García Márquez • Literatura Latino-americana</p>
+                  <div class="mt-1 flex items-center">
+                    <div class="bg-blue-100 h-2 rounded-full w-24">
+                      <div class="bg-blue-600 h-2 rounded-full" style="width: 30%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 ml-2">30%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex items-start">
+                <div class="bg-green-100 text-green-800 rounded-md p-2 mr-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-medium text-sm">Orgulho e Preconceito</h3>
+                  <p class="text-xs text-gray-500">Jane Austen • Clássicos</p>
+                  <div class="mt-1 flex items-center">
+                    <div class="bg-blue-100 h-2 rounded-full w-24">
+                      <div class="bg-blue-600 h-2 rounded-full" style="width: 45%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 ml-2">45%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium block text-center mt-4">
+            Ver todas as leituras
+          </a>
+        </div>
+      </div>
+
+      <!-- Widget de Próximos Eventos -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-gradient-to-r from-purple-600 to-purple-800 px-4 py-3">
+          <h2 class="text-lg font-semibold text-white">Próximos Eventos</h2>
+        </div>
+        <div class="p-4">
+          <div class="space-y-4">
+            <div class="border-b pb-3">
+              <div class="flex items-start">
+                <div class="bg-purple-100 text-purple-800 rounded-lg w-10 h-10 flex flex-col items-center justify-center mr-3">
+                  <span class="text-xs font-bold">MAI</span>
+                  <span class="text-sm font-bold">15</span>
+                </div>
+                <div>
+                  <h3 class="font-medium text-sm">Discussão: A Revolução dos Bichos</h3>
+                  <p class="text-xs text-gray-600">19:00 • Clube Distopias</p>
+                  <span class="inline-block mt-1 bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded">
+                    Em 2 dias
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="border-b pb-3">
+              <div class="flex items-start">
+                <div class="bg-purple-100 text-purple-800 rounded-lg w-10 h-10 flex flex-col items-center justify-center mr-3">
+                  <span class="text-xs font-bold">MAI</span>
+                  <span class="text-sm font-bold">22</span>
+                </div>
+                <div>
+                  <h3 class="font-medium text-sm">Encontro: Literatura Latino-americana</h3>
+                  <p class="text-xs text-gray-600">20:00 • Online</p>
+                  <span class="inline-block mt-1 bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded">
+                    Em 9 dias
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex items-start">
+                <div class="bg-purple-100 text-purple-800 rounded-lg w-10 h-10 flex flex-col items-center justify-center mr-3">
+                  <span class="text-xs font-bold">JUN</span>
+                  <span class="text-sm font-bold">05</span>
+                </div>
+                <div>
+                  <h3 class="font-medium text-sm">Lançamento: Novo Romance de Isabel Allende</h3>
+                  <p class="text-xs text-gray-600">18:30 • Livraria Central</p>
+                  <span class="inline-block mt-1 bg-gray-100 text-gray-800 text-xs px-2 py-0.5 rounded">
+                    Em 23 dias
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="text-blue-600 hover:text-blue-800 text-xs font-medium block text-center mt-4">
+            Ver todos os eventos
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div> 

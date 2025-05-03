@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
+  devise_for :users
 
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -8,4 +9,5 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   resources :clubs, only: [:show]
+  root "home#index"
 end

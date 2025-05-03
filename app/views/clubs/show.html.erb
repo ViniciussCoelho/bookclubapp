@@ -30,67 +30,357 @@
         <p class="text-gray-700"><%= @club.description %></p>
       </div>
       
-      <div>
-        <h2 class="text-xl font-semibold mb-2 text-[#8B2635]">Membros</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <% @club.club_users.includes(:user).each do |club_user| %>
-            <div class="flex items-center p-3 border rounded-lg">
-              <div class="bg-[#F9EDEF] text-[#8B2635] rounded-full w-10 h-10 flex items-center justify-center font-bold mr-3">
-                <%= club_user.user.email[0].upcase %>
+      <!-- Abas para navegação -->
+      <div class="border-b border-gray-200 mb-6">
+        <ul class="flex -mb-px text-sm">
+          <li class="mr-2">
+            <a href="#visao-geral" class="inline-block p-4 border-b-2 border-[#8B2635] text-[#8B2635] font-medium active" 
+               aria-current="page" id="tab-visao-geral">Visão Geral</a>
+          </li>
+          <li class="mr-2">
+            <a href="#leituras" class="inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" 
+               id="tab-leituras">📚 Leituras</a>
+          </li>
+          <li class="mr-2">
+            <a href="#reunioes" class="inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" 
+               id="tab-reunioes">🗓 Reuniões</a>
+          </li>
+          <li class="mr-2">
+            <a href="#chat" class="inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" 
+               id="tab-chat">💬 Chat</a>
+          </li>
+          <li class="mr-2">
+            <a href="#votacoes" class="inline-block p-4 border-b-2 border-transparent hover:border-gray-300 text-gray-500 hover:text-gray-700" 
+               id="tab-votacoes">✅ Votações</a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Conteúdo das abas -->
+      <div id="visao-geral-content" class="tab-content active">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <!-- Livro atual -->
+          <div class="bg-[#F2E9CE] bg-opacity-20 p-4 rounded-lg border border-[#F2E9CE]">
+            <h3 class="text-lg font-semibold mb-3 text-[#8B2635]">Livro Atual</h3>
+            <div class="flex items-start">
+              <div class="bg-[#F2E9CE] w-20 h-28 rounded-md mr-4 flex items-center justify-center text-[#8B2635]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                </svg>
               </div>
               <div>
-                <div class="text-sm font-medium"><%= club_user.user.email %></div>
-                <% if club_user.is_admin %>
-                  <span class="bg-[#F9EDEF] text-[#8B2635] text-xs px-2 py-0.5 rounded">Admin</span>
-                <% else %>
-                  <span class="bg-gray-100 text-gray-800 text-xs px-2 py-0.5 rounded">Membro</span>
-                <% end %>
+                <p class="font-semibold">Nenhum livro escolhido</p>
+                <p class="text-sm text-gray-600">Crie uma votação para escolher o próximo livro</p>
+                <button class="mt-2 text-sm bg-[#8B2635] hover:bg-[#731F2D] text-white px-3 py-1 rounded transition duration-200">
+                  Adicionar Livro
+                </button>
               </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-<div id="chat" data-controller="chat" data-chat-club-id="<%= @club.id %>">
-  <div id="messages">
-    <% @club.chat_messages.each do |msg| %>
-      <p><%= msg["timestamp"].to_time.strftime("%H:%M") %> <strong><%= msg["user"] %>:</strong> <%= msg["message"] %></p>
-    <% end %>
-  </div>
-  
-  <div class="bg-white rounded-lg shadow-md overflow-hidden">
-    <div class="bg-[#F9EDEF] px-6 py-4 border-b">
-      <h2 class="text-xl font-semibold text-[#8B2635]">Chat do Clube</h2>
-    </div>
-    
-    <div id="club-chat" class="p-4 h-96 overflow-y-auto">
-      <% if @messages.empty? %>
-        <div class="text-center text-gray-500 py-20">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto mb-4 text-[#8B2635]">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-          </svg>
-          <p class="text-lg">Nenhuma mensagem ainda. Seja o primeiro a iniciar uma conversa!</p>
-        </div>
-      <% else %>
-        <% @messages.each do |message| %>
-          <div class="mb-4 <%= message[:user] == current_user.email ? 'text-right' : '' %>">
-            <div class="<%= message[:user] == current_user.email ? 'bg-[#F9EDEF] ml-12' : 'bg-gray-100 mr-12' %> inline-block rounded-lg px-4 py-2 max-w-sm">
-              <div class="font-semibold text-sm mb-1 <%= message[:user] == current_user.email ? 'text-[#8B2635]' : 'text-gray-800' %>">
-                <%= message[:user] == current_user.email ? 'Você' : message[:user] %>
-              </div>
-              <div class="text-gray-800"><%= message[:message] %></div>
-              <div class="text-xs text-gray-500 mt-1"><%= message[:timestamp].strftime("%d/%m %H:%M") %></div>
             </div>
           </div>
-        <% end %>
-      <% end %>
-    </div>
-    
-    <div class="border-t p-4">
-      <form id="message-form" class="flex">
-        <input type="text" id="message-input" placeholder="Digite sua mensagem..." class="flex-grow px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-[#8B2635]">
-        <button type="submit" class="bg-[#8B2635] hover:bg-[#731F2D] text-white font-medium px-6 py-2 rounded-r-md transition duration-200">Enviar</button>
-      </form>
+          
+          <!-- Próxima reunião -->
+          <div class="bg-[#F9EDEF] bg-opacity-30 p-4 rounded-lg border border-[#F9EDEF]">
+            <h3 class="text-lg font-semibold mb-3 text-[#8B2635]">Próxima Reunião</h3>
+            <div class="flex items-start">
+              <div class="bg-[#F9EDEF] w-14 h-14 rounded-md mr-4 flex flex-col items-center justify-center text-[#8B2635]">
+                <span class="text-sm font-medium">JUN</span>
+                <span class="text-xl font-bold">15</span>
+              </div>
+              <div>
+                <p class="font-semibold">Nenhuma reunião agendada</p>
+                <p class="text-sm text-gray-600">Agende uma nova reunião para o clube</p>
+                <button class="mt-2 text-sm bg-[#8B2635] hover:bg-[#731F2D] text-white px-3 py-1 rounded transition duration-200">
+                  Agendar Reunião
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Membros -->
+        <div>
+          <h2 class="text-xl font-semibold mb-2 text-[#8B2635]">Membros</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <% @club.club_users.includes(:user).each do |club_user| %>
+              <div class="flex items-center p-3 border rounded-lg">
+                <div class="bg-[#F9EDEF] text-[#8B2635] rounded-full w-10 h-10 flex items-center justify-center font-bold mr-3">
+                  <%= club_user.user.email[0].upcase %>
+                </div>
+                <div>
+                  <div class="text-sm font-medium"><%= club_user.user.email %></div>
+                  <% if club_user.is_admin %>
+                    <span class="bg-[#F9EDEF] text-[#8B2635] text-xs px-2 py-0.5 rounded">Admin</span>
+                  <% else %>
+                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-0.5 rounded">Membro</span>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Leituras Content -->
+      <div id="leituras-content" class="tab-content hidden">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-[#8B2635]">📚 Leituras</h2>
+          <button class="bg-[#8B2635] hover:bg-[#731F2D] text-white px-4 py-2 rounded-md transition duration-200 text-sm">
+            Adicionar Livro
+          </button>
+        </div>
+        
+        <div class="mb-6">
+          <h3 class="text-lg font-medium mb-3 text-[#8B2635]">Livro Atual</h3>
+          <div class="bg-white border rounded-lg p-4 mb-4">
+            <div class="flex items-start">
+              <div class="bg-[#F2E9CE] w-20 h-28 rounded-md mr-4 flex items-center justify-center text-[#8B2635]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-semibold text-lg">Nenhum livro selecionado</h4>
+                <p class="text-sm text-gray-600 mb-2">Crie uma votação para escolher o próximo livro</p>
+                <div class="flex space-x-2">
+                  <button class="text-sm bg-[#8B2635] hover:bg-[#731F2D] text-white px-3 py-1 rounded transition duration-200">
+                    Marcar Progresso
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-[#8B2635]">Linha do Tempo de Leitura</h3>
+          <div class="border-l-2 border-[#8B2635] pl-4 space-y-6 ml-4">
+            <div class="relative">
+              <div class="absolute -left-6 top-0 w-4 h-4 rounded-full bg-[#8B2635]"></div>
+              <div class="bg-white p-3 rounded-lg border">
+                <p class="text-sm text-gray-500">15/06/2023</p>
+                <p class="font-medium">Maria marcou progresso: <span class="text-[#8B2635]">Capítulo 3</span></p>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="absolute -left-6 top-0 w-4 h-4 rounded-full bg-[#8B2635]"></div>
+              <div class="bg-white p-3 rounded-lg border">
+                <p class="text-sm text-gray-500">10/06/2023</p>
+                <p class="font-medium">João marcou progresso: <span class="text-[#8B2635]">Capítulo 1</span></p>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="absolute -left-6 top-0 w-4 h-4 rounded-full bg-[#8B2635]"></div>
+              <div class="bg-white p-3 rounded-lg border">
+                <p class="text-sm text-gray-500">05/06/2023</p>
+                <p class="font-medium">Clube iniciou a leitura: <span class="text-[#8B2635]">Título do Livro</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Reuniões Content -->
+      <div id="reunioes-content" class="tab-content hidden">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-[#8B2635]">🗓 Reuniões</h2>
+          <button class="bg-[#8B2635] hover:bg-[#731F2D] text-white px-4 py-2 rounded-md transition duration-200 text-sm">
+            Agendar Reunião
+          </button>
+        </div>
+        
+        <div class="mb-6">
+          <h3 class="text-lg font-medium mb-3 text-[#8B2635]">Próxima Reunião</h3>
+          <div class="bg-white border rounded-lg p-4 mb-4">
+            <div class="flex items-start">
+              <div class="bg-[#F9EDEF] w-16 h-16 rounded-md mr-4 flex flex-col items-center justify-center text-[#8B2635]">
+                <span class="text-sm font-medium">JUN</span>
+                <span class="text-xl font-bold">15</span>
+              </div>
+              <div class="flex-1">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h4 class="font-semibold text-lg">Discussão do Livro</h4>
+                    <p class="text-sm text-gray-600">19:00 - 20:30</p>
+                  </div>
+                  <div>
+                    <button class="text-white bg-green-500 hover:bg-green-600 px-3 py-1 rounded text-sm">
+                      Confirmar Presença
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-3 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-[#8B2635] mr-1">
+                    <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+                  </svg>
+                  <a href="#" class="text-[#8B2635] underline text-sm">Link para Videochamada</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-[#8B2635]">Histórico de Reuniões</h3>
+          <div class="space-y-4">
+            <div class="bg-white p-3 rounded-lg border">
+              <div class="flex justify-between items-center">
+                <div>
+                  <p class="font-medium">Discussão do Livro Anterior</p>
+                  <p class="text-sm text-gray-500">01/06/2023 - 19:00</p>
+                </div>
+                <div class="text-sm">
+                  <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded">5 participantes</span>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white p-3 rounded-lg border">
+              <div class="flex justify-between items-center">
+                <div>
+                  <p class="font-medium">Escolha do Próximo Livro</p>
+                  <p class="text-sm text-gray-500">15/05/2023 - 19:00</p>
+                </div>
+                <div class="text-sm">
+                  <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded">7 participantes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Chat Content -->
+      <div id="chat-content" class="tab-content hidden">
+        <div id="chat" data-controller="chat" data-chat-club-id="<%= @club.id %>">
+          <div id="messages" class="hidden">
+            <% @club.chat_messages.each do |msg| %>
+              <p><%= msg["timestamp"].to_time.strftime("%H:%M") %> <strong><%= msg["user"] %>:</strong> <%= msg["message"] %></p>
+            <% end %>
+          </div>
+          
+          <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-[#F9EDEF] px-6 py-4 border-b">
+              <h2 class="text-xl font-semibold text-[#8B2635]">💬 Chat do Clube</h2>
+            </div>
+            
+            <div id="club-chat" class="p-4 h-96 overflow-y-auto">
+              <% if @messages.empty? %>
+                <div class="text-center text-gray-500 py-20">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto mb-4 text-[#8B2635]">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                  </svg>
+                  <p class="text-lg">Nenhuma mensagem ainda. Seja o primeiro a iniciar uma conversa!</p>
+                </div>
+              <% else %>
+                <% @messages.each do |message| %>
+                  <div class="mb-4 <%= message[:user] == current_user.email ? 'text-right' : '' %>">
+                    <div class="<%= message[:user] == current_user.email ? 'bg-[#F9EDEF] ml-12' : 'bg-gray-100 mr-12' %> inline-block rounded-lg px-4 py-2 max-w-sm">
+                      <div class="font-semibold text-sm mb-1 <%= message[:user] == current_user.email ? 'text-[#8B2635]' : 'text-gray-800' %>">
+                        <%= message[:user] == current_user.email ? 'Você' : message[:user] %>
+                      </div>
+                      <div class="text-gray-800"><%= message[:message] %></div>
+                      <div class="text-xs text-gray-500 mt-1"><%= message[:timestamp].strftime("%d/%m %H:%M") %></div>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+            
+            <div class="border-t p-4">
+              <form id="message-form" class="flex">
+                <input type="text" id="message-input" placeholder="Digite sua mensagem..." class="flex-grow px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-[#8B2635]">
+                <button type="submit" class="bg-[#8B2635] hover:bg-[#731F2D] text-white font-medium px-6 py-2 rounded-r-md transition duration-200">Enviar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Votações Content -->
+      <div id="votacoes-content" class="tab-content hidden">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-[#8B2635]">✅ Votações</h2>
+          <button class="bg-[#8B2635] hover:bg-[#731F2D] text-white px-4 py-2 rounded-md transition duration-200 text-sm">
+            Nova Votação
+          </button>
+        </div>
+        
+        <div class="mb-6">
+          <h3 class="text-lg font-medium mb-3 text-[#8B2635]">Votações Ativas</h3>
+          
+          <div class="bg-white border rounded-lg p-4 mb-4">
+            <h4 class="font-semibold">Escolha do próximo livro</h4>
+            <p class="text-sm text-gray-500 mb-4">Encerra em 2 dias</p>
+            
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <input type="radio" name="book" id="book1" class="mr-2 text-[#8B2635] focus:ring-[#8B2635]">
+                <label for="book1" class="flex-1">Dom Casmurro - Machado de Assis</label>
+                <span class="text-sm font-medium">3 votos</span>
+              </div>
+              <div class="flex items-center">
+                <input type="radio" name="book" id="book2" class="mr-2 text-[#8B2635] focus:ring-[#8B2635]">
+                <label for="book2" class="flex-1">1984 - George Orwell</label>
+                <span class="text-sm font-medium">2 votos</span>
+              </div>
+              <div class="flex items-center">
+                <input type="radio" name="book" id="book3" class="mr-2 text-[#8B2635] focus:ring-[#8B2635]">
+                <label for="book3" class="flex-1">O Pequeno Príncipe - Antoine de Saint-Exupéry</label>
+                <span class="text-sm font-medium">1 voto</span>
+              </div>
+            </div>
+            
+            <button class="mt-4 bg-[#8B2635] hover:bg-[#731F2D] text-white px-4 py-2 rounded transition duration-200 text-sm">
+              Votar
+            </button>
+          </div>
+          
+          <div class="bg-white border rounded-lg p-4 mb-4">
+            <h4 class="font-semibold">Melhor dia para a próxima reunião</h4>
+            <p class="text-sm text-gray-500 mb-4">Encerra em 5 dias</p>
+            
+            <div class="space-y-3">
+              <div class="flex items-center">
+                <input type="radio" name="day" id="day1" class="mr-2 text-[#8B2635] focus:ring-[#8B2635]">
+                <label for="day1" class="flex-1">Segunda-feira, 19h</label>
+                <span class="text-sm font-medium">2 votos</span>
+              </div>
+              <div class="flex items-center">
+                <input type="radio" name="day" id="day2" class="mr-2 text-[#8B2635] focus:ring-[#8B2635]">
+                <label for="day2" class="flex-1">Quarta-feira, 20h</label>
+                <span class="text-sm font-medium">4 votos</span>
+              </div>
+              <div class="flex items-center">
+                <input type="radio" name="day" id="day3" class="mr-2 text-[#8B2635] focus:ring-[#8B2635]">
+                <label for="day3" class="flex-1">Sábado, 15h</label>
+                <span class="text-sm font-medium">1 voto</span>
+              </div>
+            </div>
+            
+            <button class="mt-4 bg-[#8B2635] hover:bg-[#731F2D] text-white px-4 py-2 rounded transition duration-200 text-sm">
+              Votar
+            </button>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-[#8B2635]">Votações Encerradas</h3>
+          
+          <div class="bg-gray-50 border rounded-lg p-4 mb-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="font-semibold">Escolha do livro anterior</h4>
+                <p class="text-sm text-gray-500">Encerrada em 01/05/2023</p>
+              </div>
+              <div class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
+                Finalizada
+              </div>
+            </div>
+            <div class="mt-3">
+              <p class="font-medium">Vencedor: <span class="text-[#8B2635]">Orgulho e Preconceito - Jane Austen</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -128,6 +418,35 @@
         // Rolar para a parte inferior
         chatContainer.scrollTop = chatContainer.scrollHeight;
       }
+    });
+    
+    // Controle de abas
+    const tabs = document.querySelectorAll('[id^="tab-"]');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Remover classe active de todas as abas
+        tabs.forEach(t => {
+          t.classList.remove('border-[#8B2635]', 'text-[#8B2635]');
+          t.classList.add('border-transparent', 'text-gray-500');
+        });
+        
+        // Adicionar classe active na aba clicada
+        this.classList.add('border-[#8B2635]', 'text-[#8B2635]');
+        this.classList.remove('border-transparent', 'text-gray-500');
+        
+        // Ocultar todos os conteúdos
+        tabContents.forEach(content => {
+          content.classList.add('hidden');
+        });
+        
+        // Exibir o conteúdo correspondente
+        const contentId = this.id.replace('tab-', '') + '-content';
+        document.getElementById(contentId).classList.remove('hidden');
+      });
     });
   });
 </script>

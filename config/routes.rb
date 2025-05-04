@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
   
-  resources :clubs
+  resources :clubs do
+    member do
+      patch :update_banner
+    end
+  end
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

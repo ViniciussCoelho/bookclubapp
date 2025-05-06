@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
   
-  resources :clubs
+  resources :clubs do
+    resources :messages, only: [:create], controller: 'club_messages'
+  end
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -1,5 +1,6 @@
 class ClubsController < ApplicationController
   before_action :set_club, only: [ :show, :edit, :update, :destroy ]
+  before_action :authenticate_user!
 
   def index
     @clubs = current_user.clubs
@@ -7,6 +8,9 @@ class ClubsController < ApplicationController
 
   def show
     @messages = @club.chat_messages || []
+    @messages = @messages.map do |msg|
+      msg.is_a?(String) ? JSON.parse(msg) : msg
+    end
   end
 
   def new

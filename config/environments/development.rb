@@ -72,7 +72,7 @@ Rails.application.configure do
 
   # Action Cable configuration
   config.action_cable.disable_request_forgery_protection = true
-  config.action_cable.url = "wss://a573-2804-1530-64e-a000-c676-bad0-9b27-fff4.ngrok-free.app/cable"
+  config.action_cable.url = "ws://localhost:3000/cable"
   config.action_cable.allowed_request_origins = [/http:\/\/*/, /https:\/\/*/]
 
   # Raise error when a before_action's only/except options reference missing actions.

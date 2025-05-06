@@ -14,6 +14,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_03_193313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "club_invitations", force: :cascade do |t|
+    t.bigint "club_id", null: false
+    t.string "token", null: false
+    t.string "email"
+    t.integer "inviter_id"
+    t.datetime "expires_at", null: false
+    t.datetime "accepted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["club_id", "email"], name: "index_club_invitations_on_club_id_and_email", unique: true, where: "(accepted_at IS NULL)"
+    t.index ["club_id"], name: "index_club_invitations_on_club_id"
+    t.index ["token"], name: "index_club_invitations_on_token", unique: true
+  end
+
   create_table "club_users", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "club_id", null: false
@@ -47,6 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_03_193313) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "club_invitations", "clubs"
   add_foreign_key "club_users", "clubs"
   add_foreign_key "club_users", "users"
   add_foreign_key "clubs", "users", column: "owner_id"

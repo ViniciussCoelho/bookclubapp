@@ -1,7 +1,17 @@
 Rails.application.routes.draw do
   devise_for :users
   
-  resources :clubs
+  resources :clubs do
+    member do
+      patch :update_banner
+      post :send_invitation
+    end
+    
+    collection do
+      get :join, as: :join
+      post :accept_invitation
+    end
+  end
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

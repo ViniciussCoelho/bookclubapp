@@ -2,9 +2,18 @@ Rails.application.routes.draw do
   devise_for :users
   
   resources :clubs do
-    resources :messages, only: [:create], controller: 'club_messages'
+    resources :messages, only: [:create], controller: "club_messages"
+    member do
+      patch :update_banner
+      post :send_invitation
+    end
+
+    collection do
+      get :join, as: :join
+      post :accept_invitation
+    end
   end
-  
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

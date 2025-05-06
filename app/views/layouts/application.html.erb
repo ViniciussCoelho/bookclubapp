@@ -25,13 +25,13 @@
     <%= javascript_importmap_tags %>
     
     <style>
-      body, html {
+      h1 {
         font-family: 'Merriweather', serif;
-        background-color: #F2E9CE;
+        font-weight: 700;
       }
-      
-      h1, h2, h3, h4, h5, h6 {
-        font-family: 'Merriweather', serif;
+
+      h2 {
+        font-family:  ;
         font-weight: 700;
       }
       
@@ -56,23 +56,20 @@
     </style>
   </head>
 
-  <body class="bg-[#F2E9CE]">
-    <header class="bg-[#8B2635] text-white p-4">
-      <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold">Book Club App</h1>
-        <nav>
-          <% if user_signed_in? %>
-            <span class="mr-2">Olá, <%= current_user.email %></span>
-            <%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete }, class: "bg-white hover:bg-gray-100 text-[#8B2635] font-bold py-1 px-4 rounded" %>
-          <% else %>
-            <%= link_to "Entrar", new_user_session_path, class: "bg-[#F9EDEF] hover:bg-white text-[#8B2635] font-bold py-1 px-4 rounded mr-2" %>
-            <%= link_to "Cadastrar", new_user_registration_path, class: "bg-white hover:bg-gray-100 text-[#8B2635] font-bold py-1 px-4 rounded" %>
-          <% end %>
-        </nav>
-      </div>
-    </header>
+  <% if user_signed_in? %>
+    <body class="bg-[#F2E9CE]">
+      <header class="bg-[#8B2635] text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+          <h1 class="text-xl font-bold">Book Club App</h1>
+          <nav>
+              <span class="mr-2">Olá, <%= current_user.email %></span>
+              <%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete }, class: "bg-white hover:bg-gray-100 text-[#8B2635] font-bold py-1 px-4 rounded" %>
+          </nav>
+        </div>
+      </header>
+  <% end %>
 
-    <main class="container mx-auto mt-4 px-4">
+    <main>
       <% if notice %>
         <div class="bg-[#F9EDEF] border border-[#8B2635] text-[#8B2635] px-4 py-3 rounded mb-4">
           <%= notice %>

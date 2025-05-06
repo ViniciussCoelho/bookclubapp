@@ -4,6 +4,12 @@ Rails.application.routes.draw do
   resources :clubs do
     member do
       patch :update_banner
+      post :send_invitation
+    end
+    
+    collection do
+      get :join, as: :join
+      post :accept_invitation
     end
   end
   

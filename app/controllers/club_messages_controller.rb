@@ -12,17 +12,11 @@ class ClubMessagesController < ApplicationController
     }
 
     if @club.update(chat_messages: messages)
-      ActionCable.server.broadcast(
+      Turbo::StreamsChannel.broadcast_update_to(
         "club_#{@club.id}_messages",
-        {
-          html: render_to_string(
-            partial: "clubs/messages",
-            locals: {
-              messages: messages,
-              current_user: current_user
-            }
-          )
-        }
+        target: "messages",
+        partial: "clubs/messages",
+        locals: { messages: messages, current_user: current_user }
       )
     end
 

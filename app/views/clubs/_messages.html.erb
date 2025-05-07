@@ -1,4 +1,4 @@
-<div id="messages">
+<%= turbo_frame_tag "messages" do %>
   <% if messages.empty? %>
     <div class="text-center text-gray-500 py-20">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto mb-4 text-[#8B2635]">
@@ -20,4 +20,4 @@
       </div>
     <% end %>
   <% end %>
-</div>
+<% end %>

@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   devise_for :users
   
   resources :clubs do
-    resources :messages, only: [:create], controller: "club_messages"
     member do
       patch :update_banner
       post :send_invitation

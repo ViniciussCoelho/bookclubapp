@@ -49,9 +49,11 @@ class Club < ApplicationRecord
     invitation.accept!(user)
   end
 
-  def append_message(user_name, message)
+  def append_message(user, message)
+    self.chat_messages = [] if chat_messages.nil?
     self.chat_messages << {
-      user: user_name,
+      user_id: user.id.to_s,
+      user_name: user.email,
       message: message,
       timestamp: Time.current
     }

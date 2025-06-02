@@ -116,6 +116,11 @@ class ClubsController < ApplicationController
     end
   end
 
+  def new_invite
+    @club = Club.find(params[:id])
+    render :new_invite
+  end
+
   private
 
   def set_club

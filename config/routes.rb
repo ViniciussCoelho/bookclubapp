@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     member do
       patch :update_banner
       post :send_invitation
+      post :accept_invitation
+      get :new_invite
+      get :join
     end
 
     collection do

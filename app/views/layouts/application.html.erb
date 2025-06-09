@@ -61,12 +61,12 @@
 
   <% if user_signed_in? %>
     <body class="bg-[#F2E9CE]">
-      <header class="bg-[#8B2635] text-white p-4">
+      <header class="bg-white/90 text-white p-6 shadow-md backdrop-blur-md">
         <div class="container mx-auto flex justify-between items-center">
-          <h1 class="text-xl font-bold">Book Club App</h1>
+          <h1 class="text-xl font-bold text-[#8B2635]">Book Club App</h1>
           <nav>
-              <span class="mr-2">Olá, <%= current_user.email %></span>
-              <%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete }, class: "bg-white hover:bg-gray-100 text-[#8B2635] font-bold py-1 px-4 rounded" %>
+              <span class="mr-2 text-[#8B2635]">Olá, <%= current_user.first_name %></span>
+              <%= link_to "Sair", destroy_user_session_path, data: { turbo_method: :delete }, class: "bg-[#8B2635] hover:bg-gray-100 text-white font-bold py-1 px-4 rounded" %>
           </nav>
         </div>
       </header>

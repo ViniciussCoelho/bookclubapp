@@ -1,187 +1,35 @@
-<div class="max-w-6xl mx-auto">
-  <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-bold merriweather-black">Meus Clubes de Leitura</h1>
-    <%= link_to "Criar Novo Clube", new_club_path, class: "bg-[#8B2635] hover:bg-[#731F2D] text-white font-bold py-2 px-4 rounded-lg transition duration-200 merriweather" %>
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="text-4xl font-bold merriweather-black mb-4">
+    Bem vindo de volta, <%= current_user.first_name %>!
+  </div>
+  <div class="text-gray-700 merriweather-light mb-8">
+    Aqui estão os clubes que você está participando:
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-    <!-- Widget de clubes (coluna principal) -->
-    <div class="lg:col-span-2">
-      <% if @clubs.empty? %>
-        <div class="bg-white p-8 rounded-lg shadow-md text-center">
-          <div class="text-[#8B2635] mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mx-auto">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-            </svg>
-          </div>
-          <h2 class="text-2xl font-semibold mb-4 text-[#8B2635] merriweather-bold">Você ainda não participa de nenhum clube</h2>
-          <p class="text-gray-600 mb-6">Crie seu primeiro clube ou peça para ser adicionado em um clube existente.</p>
-          <%= link_to "Criar Meu Primeiro Clube", new_club_path, class: "bg-[#8B2635] hover:bg-[#731F2D] text-white font-bold py-3 px-6 rounded-lg transition duration-200 merriweather" %>
-        </div>
-      <% else %>
-        <h2 class="text-xl font-semibold mb-4 merriweather-bold">Meus Clubes</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <% @clubs.each do |club| %>
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-              <div class="bg-gradient-to-r from-[#8B2635] to-[#6D1E29] h-20 flex items-center justify-center">
-                <h2 class="text-xl font-bold text-white px-4 text-center merriweather-bold"><%= club.name %></h2>
-              </div>
-              <div class="p-4">
-                <p class="text-gray-600 mb-4 h-16 overflow-hidden text-sm"><%= club.description %></p>
-                <div class="flex justify-between items-center">
-                  <% admin = club.club_users.find_by(user: current_user)&.is_admin %>
-                  <% if admin %>
-                    <span class="bg-[#F9EDEF] text-[#8B2635] text-xs font-medium px-2.5 py-0.5 rounded merriweather">Administrador</span>
-                  <% else %>
-                    <span class="bg-[#F9EDEF] text-[#8B2635] text-xs font-medium px-2.5 py-0.5 rounded merriweather">Membro</span>
-                  <% end %>
-                  <%= link_to "Acessar", club_path(club), class: "bg-[#8B2635] hover:bg-[#731F2D] text-white text-sm font-medium py-1 px-3 rounded transition duration-200 merriweather" %>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
+  <hr class="border-gray-300 mb-8">
 
-    <!-- Coluna lateral com widgets -->
-    <div class="space-y-6">
-      <!-- Widget de Leituras Recentes -->
-      <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-[#8B2635] px-4 py-3">
-          <h2 class="text-lg font-semibold text-white merriweather-bold">Leituras Recentes</h2>
-        </div>
-        <div class="p-4">
-          <!-- Placeholder para leituras recentes -->
-          <div class="space-y-3">
-            <div class="border-b pb-3">
-              <div class="flex items-start">
-                <div class="bg-[#F9EDEF] text-[#8B2635] rounded-md p-2 mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="font-medium text-sm">1984</h3>
-                  <p class="text-xs text-gray-500">George Orwell • Clube Distopias</p>
-                  <div class="mt-1 flex items-center">
-                    <div class="bg-[#F9EDEF] h-2 rounded-full w-24">
-                      <div class="bg-[#8B2635] h-2 rounded-full" style="width: 75%"></div>
-                    </div>
-                    <span class="text-xs text-gray-500 ml-2">75%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="border-b pb-3">
-              <div class="flex items-start">
-                <div class="bg-[#F9EDEF] text-[#8B2635] rounded-md p-2 mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="font-medium text-sm merriweather-bold">Cem Anos de Solidão</h3>
-                  <p class="text-xs text-gray-500 ">Gabriel García Márquez • Literatura Latino-americana</p>
-                  <div class="mt-1 flex items-center">
-                    <div class="bg-[#F9EDEF] h-2 rounded-full w-24">
-                      <div class="bg-[#8B2635] h-2 rounded-full" style="width: 30%"></div>
-                    </div>
-                    <span class="text-xs text-gray-500 ml-2">30%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <div class="flex items-start">
-                <div class="bg-[#F9EDEF] text-[#8B2635] rounded-md p-2 mr-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="font-medium text-sm merriweather-bold">Orgulho e Preconceito</h3>
-                  <p class="text-xs text-gray-500">Jane Austen • Clássicos</p>
-                  <div class="mt-1 flex items-center">
-                    <div class="bg-[#F9EDEF] h-2 rounded-full w-24">
-                      <div class="bg-[#8B2635] h-2 rounded-full" style="width: 45%"></div>
-                    </div>
-                    <span class="text-xs text-gray-500 ml-2">45%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <a href="#" class="text-[#8B2635] hover:text-[#731F2D] text-xs font-medium block text-center mt-4 transition duration-200 merriweather">
-            Ver todas as leituras
-          </a>
+  <div class="text-2xl font-bold merriweather-black mb-4">
+    Seu progresso de leitura
+  </div>
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    
+  </div>
+
+  <div class="text-2xl font-bold merriweather-black mb-4">
+    Seus clubes favoritos
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @clubs.each do |club| %>
+      <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+        <h3 class="text-xl font-bold merriweather-bold mb-2"><%= club.name %></h3>
+        <p class="text-gray-600 merriweather-light mb-4"><%= club.description %></p>
+        <p class="text-sm text-gray-500 merriweather-light">Criado por: <%= club.owner.first_name %> <%= club.owner.last_name %></p>
+        <div class="mt-4">
+          <%= link_to "Ver detalhes", club_path(club), class: "text-[#8B2635] hover:underline" %>
         </div>
       </div>
-
-      <!-- Widget de Próximos Eventos -->
-      <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-[#8B2635] px-4 py-3">
-          <h2 class="text-lg font-semibold text-white merriweather-bold">Próximos Eventos</h2>
-        </div>
-        <div class="p-4">
-          <div class="space-y-4">
-            <div class="border-b pb-3">
-              <div class="flex items-start">
-                <div class="bg-[#F9EDEF] text-[#8B2635] rounded-lg w-10 h-10 flex flex-col items-center justify-center mr-3">
-                  <span class="text-xs font-bold">MAI</span>
-                  <span class="text-sm font-bold">15</span>
-                </div>
-                <div>
-                  <h3 class="font-medium text-sm merriweather-bold">Discussão: A Revolução dos Bichos</h3>
-                  <p class="text-xs text-gray-600 merriweather-light">19:00 • Clube Distopias</p>
-                  <span class="inline-block mt-1 bg-[#F9EDEF] text-[#8B2635] text-xs px-2 py-0.5 rounded merriweather">
-                    Em 2 dias
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="border-b pb-3">
-              <div class="flex items-start">
-                <div class="bg-[#F9EDEF] text-[#8B2635] rounded-lg w-10 h-10 flex flex-col items-center justify-center mr-3">
-                  <span class="text-xs font-bold">MAI</span>
-                  <span class="text-sm font-bold">22</span>
-                </div>
-                <div>
-                  <h3 class="font-medium text-sm merriweather-bold">Encontro: Literatura Latino-americana</h3>
-                  <p class="text-xs text-gray-600 merriweather-light">20:00 • Online</p>
-                  <span class="inline-block mt-1 bg-[#F9EDEF] text-[#8B2635] text-xs px-2 py-0.5 rounded merriweather">
-                    Em 9 dias
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <div class="flex items-start">
-                <div class="bg-[#F9EDEF] text-[#8B2635] rounded-lg w-10 h-10 flex flex-col items-center justify-center mr-3">
-                  <span class="text-xs font-bold">JUN</span>
-                  <span class="text-sm font-bold">05</span>
-                </div>
-                <div>
-                  <h3 class="font-medium text-sm merriweather-bold">Lançamento: Novo Romance de Isabel Allende</h3>
-                  <p class="text-xs text-gray-600 merriweather-light">18:30 • Livraria Central</p>
-                  <span class="inline-block mt-1 bg-[#F9EDEF] text-[#8B2635] text-xs px-2 py-0.5 rounded merriweather">
-                    Em 23 dias
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <a href="#" class="text-[#8B2635] hover:text-[#731F2D] text-xs font-medium block text-center mt-4 transition duration-200 merriweather">
-            Ver todos os eventos
-          </a>
-        </div>
-      </div>
-    </div>
+    <% end %>
   </div>
 </div> 

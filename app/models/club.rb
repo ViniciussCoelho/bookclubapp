@@ -2,6 +2,8 @@ class Club < ApplicationRecord
   has_many :club_users, dependent: :destroy
   has_many :users, through: :club_users
   has_many :club_invitations, dependent: :destroy
+  has_many :readings, dependent: :destroy
+  has_one :current_reading, -> { where(current_reading: true) }, class_name: "Reading", dependent: :destroy
 
   belongs_to :owner, class_name: "User"
 

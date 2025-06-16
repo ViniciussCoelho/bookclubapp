@@ -1,0 +1,111 @@
+<%= form_with model: [club, reading], local: true, class: "space-y-6" do |form| %>
+  <% if reading.errors.any? %>
+    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+      <div class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        </svg>
+        <h4 class="font-medium">Corrija os seguintes erros:</h4>
+      </div>
+      <ul class="mt-2 list-disc list-inside ml-7">
+        <% reading.errors.full_messages.each do |message| %>
+          <li class="text-sm"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="bg-gray-50 px-4 py-3 rounded-md">
+    <h3 class="text-md font-semibold text-gray-800 mb-4">Informações do Livro</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= form.label :title, "Título do Livro *", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :title, 
+            placeholder: "Ex: O Cortiço",
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8B2635] focus:border-transparent transition duration-200" %>
+      </div>
+      
+      <div>
+        <%= form.label :author, "Autor *", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :author, 
+            placeholder: "Ex: Aluísio Azevedo",
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8B2635] focus:border-transparent transition duration-200" %>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <%= form.label :description, "Descrição do Livro", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= form.text_area :description, 
+          rows: 3,
+          placeholder: "Breve descrição ou sinopse do livro (opcional)",
+          class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8B2635] focus:border-transparent transition duration-200" %>
+    </div>
+
+    <div class="mt-4">
+      <%= form.label :total_pages, "Total de Páginas *", class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= form.number_field :total_pages, 
+          min: 1,
+          placeholder: "Ex: 320",
+          class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8B2635] focus:border-transparent transition duration-200" %>
+    </div>
+  </div>
+
+  <div class="bg-blue-50 px-4 py-3 rounded-md">
+    <h3 class="text-md font-semibold text-gray-800 mb-4">Período de Leitura</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <%= form.label :start_date, "Data de Início *", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.date_field :start_date, 
+            value: reading.start_date&.strftime("%Y-%m-%d") || Date.current.strftime("%Y-%m-%d"),
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8B2635] focus:border-transparent transition duration-200" %>
+      </div>
+      
+      <div>
+        <%= form.label :end_date, "Data de Término *", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.date_field :end_date, 
+            value: reading.end_date&.strftime("%Y-%m-%d") || 1.month.from_now.strftime("%Y-%m-%d"),
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8B2635] focus:border-transparent transition duration-200" %>
+      </div>
+    </div>
+
+    <div class="mt-4 text-sm text-gray-600">
+      <p class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+        </svg>
+        Define o período em que o clube se dedicará à leitura deste livro.
+      </p>
+    </div>
+  </div>
+
+  <div class="bg-[#F9EDEF] px-4 py-3 rounded-md">
+    <h3 class="text-md font-semibold text-[#8B2635] mb-4">Configurações</h3>
+    
+    <div class="flex items-start space-x-3">
+      <% current_reading_checked = reading.current_reading || (!club.current_reading.present? && reading.new_record?) %>
+      <%= form.check_box :current_reading, 
+          checked: current_reading_checked,
+          class: "mt-1 h-4 w-4 text-[#8B2635] focus:ring-[#8B2635] border-gray-300 rounded" %>
+      <div>
+        <%= form.label :current_reading, "Definir como livro atual do clube", class: "text-sm font-medium text-gray-700" %>
+        <p class="text-xs text-gray-500 mt-1">
+          <% if club.current_reading.present? && !reading.persisted? %>
+            ⚠️ Atenção: Já existe um livro atual. Marcar esta opção substituirá "<%= club.current_reading.title %>" como livro atual.
+          <% elsif !club.current_reading.present? %>
+            💡 Recomendado: Marque esta opção para que os membros vejam este livro na seção "Livro Atual".
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+    <%= link_to "Cancelar", club_path(club), 
+        class: "px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition duration-200" %>
+    
+    <%= form.submit reading.persisted? ? "Atualizar Leitura" : "Criar Leitura", 
+        class: "bg-[#8B2635] hover:bg-[#731F2D] text-white font-medium py-2 px-6 rounded-md transition duration-200 shadow-sm" %>
+  </div>
+<% end %> 

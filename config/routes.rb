@@ -16,6 +16,12 @@ Rails.application.routes.draw do
       get :join, as: :join
       post :accept_invitation
     end
+
+    resources :readings, only: [:show, :new, :create, :edit, :update, :destroy] do
+      member do
+        patch :mark_as_current
+      end
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

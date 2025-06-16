@@ -2,30 +2,20 @@
   <div class="border-b border-gray-100 px-4 py-3 bg-gray-50 flex justify-between items-center">
     <h2 class="text-lg font-semibold text-gray-800">Livro Atual</h2>
     <% if admin %>
-      <button class="text-xs bg-[#8B2635] hover:bg-[#731F2D] text-white px-3 py-1 rounded transition duration-200">
-        Atualizar Progresso
-      </button>
+      <div class="flex space-x-2">
+        <%= link_to "Nova Leitura", new_club_reading_path(club), 
+            class: "text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition duration-200" %>
+        <button class="text-xs bg-[#8B2635] hover:bg-[#731F2D] text-white px-3 py-1 rounded transition duration-200">
+          Atualizar Progresso
+        </button>
+      </div>
     <% end %>
   </div>
   <div class="p-4">
-    <div class="flex">
-      <div class="flex-shrink-0 w-20 h-28 bg-[#F2E9CE] mr-4 rounded-md flex items-center justify-center text-[#8B2635]">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-        </svg>
-      </div>
-      <div>
-        <h3 class="font-semibold mb-1">Nenhum livro selecionado</h3>
-        <p class="text-sm text-gray-600 mb-3">Selecione um livro para iniciar a leitura</p>
-        
-        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-1">
-          <div class="bg-[#8B2635] h-2.5 rounded-full" style="width: 45%"></div>
-        </div>
-        <div class="flex justify-between items-center text-xs text-gray-500">
-          <span>Progresso</span>
-          <span>156/224 páginas (45%)</span>
-        </div>
-      </div>
-    </div>
+    <% if club.current_reading %>
+      <%= render "clubs/current_book_details", reading: club.current_reading, club: club, admin: admin %>
+    <% else %>
+      <%= render "clubs/no_current_book", club: club, admin: admin %>
+    <% end %>
   </div>
 </div> 

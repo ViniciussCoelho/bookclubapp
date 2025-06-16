@@ -16,6 +16,9 @@
     <!-- Coluna da direita -->
     <div class="space-y-6">
       <%= render "clubs/club_info", club: @club %>
+      <% if admin %>
+        <%= render "clubs/manage_readings", club: @club, admin: admin %>
+      <% end %>
       <%= render "clubs/reading_schedule" %>
       <%= render "clubs/next_book" %>
     </div>

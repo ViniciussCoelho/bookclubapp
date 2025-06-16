@@ -1,0 +1,35 @@
+<div class="flex">
+  <div class="flex-shrink-0 w-20 h-28 bg-[#F2E9CE] mr-4 rounded-md flex items-center justify-center text-[#8B2635] opacity-50">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+    </svg>
+  </div>
+  <div class="flex-grow">
+    <h3 class="font-semibold mb-2 text-gray-800">Nenhum livro selecionado</h3>
+    
+    <% if admin %>
+      <p class="text-sm text-gray-600 mb-4">
+        Como administrador, você pode definir um livro para o clube começar a ler juntos.
+      </p>
+      
+      <div class="space-y-2">
+        <p class="text-xs text-gray-500">
+          💡 Dica: Escolha um livro que gere boas discussões e tenha um tamanho adequado para o período desejado.
+        </p>
+      </div>
+    <% else %>
+      <p class="text-sm text-gray-600 mb-3">
+        O administrador do clube ainda não definiu um livro para leitura.
+      </p>
+      
+      <div class="bg-gray-50 rounded-md p-3">
+        <p class="text-xs text-gray-500 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+          </svg>
+          Aguarde a definição da próxima leitura ou entre em contato com o administrador.
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div> 

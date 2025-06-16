@@ -1,0 +1,19 @@
+<% if club.current_reading && club.current_reading.created_at > 1.week.ago %>
+  <div class="mb-6 bg-[#F9EDEF] border border-[#8B2635] rounded-lg p-4">
+    <div class="flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-[#8B2635] mr-2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+      </svg>
+      <div>
+        <h4 class="font-semibold text-[#8B2635]">Nova Leitura Definida!</h4>
+        <p class="text-sm text-gray-700">
+          "<%= club.current_reading.title %>" foi definido como o livro atual do clube.
+          <span class="text-xs text-gray-500">
+            (Período: <%= club.current_reading.start_date.strftime("%d/%m/%Y") %> - 
+            <%= club.current_reading.end_date.strftime("%d/%m/%Y") %>)
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %> 
